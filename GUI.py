@@ -73,7 +73,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
     def qCards(self):
         text = self.listPDF.currentItem().text()
         text = extractPDF("pdfs/"+text)
-        print(createQCards(text, 5))
+        self.popup(createQCards(text, 5), "Qcards")
 
     def summarize(self):
         text = self.listPDF.currentItem().text()
