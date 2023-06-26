@@ -1,12 +1,14 @@
 import sys, os, shutil, pathlib
 from PyQt6 import QtWidgets, uic
-from PyQt6.QtWidgets import QFileDialog, QTextEdit
+from PyQt6.QtWidgets import QFileDialog, QTextEdit, QMessageBox, QVBoxLayout, QScrollArea
 from PyQt6.QtGui import QAction, QIcon
 from test import extractPDF, createMockTest, createQCards, summarizePDF
+from PyQt6.QtCore import Qt
 
 
 qtcreator_file  = "window.ui" # Enter file here.
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtcreator_file)
+
 
 class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -40,17 +42,24 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
     def mockTest(self):
         text = self.listPDF.currentItem().text()
         text = extractPDF("pdfs/"+text)
-        print(createMockTest(text))
+        self.popup(createMockTest(text), "MockTest")
 
     def qCards(self):
         text = self.listPDF.currentItem().text()
         text = extractPDF("pdfs/"+text)
-        print(createQCards(text))
+        self.popup(createQCards(text), "QCards")
 
     def summarize(self):
         text = self.listPDF.currentItem().text()
         text = extractPDF("pdfs/"+text)
-        print(summarizePDF(text))
+        self.popup(summarizePDF(text), "PDFSummary")
+    
+    def popup(self, text, title):
+        msg = QMessageBox()
+        msg.setWindowTitle(title)
+        msg.setText(text)
+        msg.exec()
+        
         
 
 
