@@ -73,7 +73,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
     def qCards(self):
         text = self.listPDF.currentItem().text()
         text = extractPDF("pdfs/"+text)
-        self.popup(createQCards(text), "QCards")
+        print(createQCards(text, 5))
 
     def summarize(self):
         text = self.listPDF.currentItem().text()
@@ -85,8 +85,6 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         msg.setWindowTitle(title)
         msg.setText(text)
         msg.exec()
-        
-        
 
 
 if __name__ == "__main__":
