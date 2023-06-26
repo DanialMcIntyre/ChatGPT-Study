@@ -2,14 +2,54 @@ import openai
 from pdfminer.high_level import extract_text
 from PyQt6 import uic, QtWidgets
 
-openai.api_key = ""
+openai.api_key = "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"
 
 #Reads pdf and returns string
 def extractPDF(fileName):
     text = extract_text(fileName)
     return text
 
-text = extractPDF("big.pdf")
+def summarizePDF(PDF):
+    numWords = PDF.split()
+    numWords = len(numWords)
+    if numWords > 3000:
+        print("File too large")
+        return
+    elif numWords > 800:
+        gptModel = "gpt-3.5-turbo"
+    else:
+        gptModel = "gpt-3.5-turbo-16k"
+
+    completion = openai.ChatCompletion.create(
+    model = gptModel,
+    messages = [{"role": "user", "content" : "Summarize the following:\n" + PDF}]
+    )
+
+    return completion.choices[0].message.content
+
+def createQCards(PDF, numCards):
+    numWords = PDF.split()
+    numWords = len(numWords)
+    if (numWords*3 + 20*numCards) > 15000:
+        print("File too large")
+        return
+    elif (numWords*3 + 20*numCards) > 3800:
+        gptModel = "gpt-3.5-turbo"
+    else:
+        gptModel = "gpt-3.5-turbo-16k"
+
+    completion = openai.ChatCompletion.create(
+    model = gptModel,
+    messages = [{"role": "user", "content" : "Create " + str(numCards) + " QCards with answers from the following info:\n" + PDF}]
+    )
+
+    return completion.choices[0].message.content
+
+# text = extractPDF("cogsci.pdf")
+
+
+print(createQCards(text,20))
+# print(summarizePDF(text))
 
 #Message to API
 #completion = openai.ChatCompletion.create(
