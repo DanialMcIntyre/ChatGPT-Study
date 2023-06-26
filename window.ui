@@ -31,33 +31,17 @@
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
-      <widget class="QListWidget" name="listWidget">
-       <item>
-        <property name="text">
-         <string>PDF1.pdf</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>PDF2.pdf</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>PDF3.pdf</string>
-        </property>
-       </item>
-      </widget>
+      <widget class="QListWidget" name="listPDF"/>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="buttonRemovePDF">
        <property name="text">
         <string>Remove</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="buttonAddPDF">
        <property name="text">
         <string>Add</string>
        </property>
@@ -82,7 +66,7 @@
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QTextBrowser" name="textBrowser">
+      <widget class="QTextBrowser" name="showText">
        <property name="html">
         <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -97,21 +81,21 @@ p, li { white-space: pre-wrap; }
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_5">
+      <widget class="QPushButton" name="buttonMock">
        <property name="text">
         <string>Create Mock Test</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_4">
+      <widget class="QPushButton" name="buttonCard">
        <property name="text">
         <string>Create Q-Cards</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_3">
+      <widget class="QPushButton" name="buttonSummarize">
        <property name="text">
         <string>Summarize</string>
        </property>
