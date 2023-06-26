@@ -1,6 +1,6 @@
 import sys, os, shutil, pathlib
 from PyQt6 import QtWidgets, uic
-from PyQt6.QtWidgets import QFileDialog, QTextEdit, QMessageBox, QVBoxLayout, QScrollArea
+from PyQt6.QtWidgets import QFileDialog, QWidget, QMessageBox, QVBoxLayout, QScrollArea
 from PyQt6.QtGui import QAction, QIcon
 from test import extractPDF, createMockTest, createQCards, summarizePDF
 from PyQt6.QtCore import Qt
@@ -43,7 +43,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         text = self.listPDF.currentItem().text()
         text = extractPDF("pdfs/"+text)
         self.popup(createMockTest(text), "MockTest")
-
+        # self.popup("text", "text")
     def qCards(self):
         text = self.listPDF.currentItem().text()
         text = extractPDF("pdfs/"+text)
@@ -58,6 +58,13 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         msg = QMessageBox()
         msg.setWindowTitle(title)
         msg.setText(text)
+        scroll_area = QScrollArea()
+
+        # widget = QWidget()
+        # widget.setLayout(QVBoxLayout())
+        # widget.layout().addWidget(msg)
+        scroll_area.setWidget(msg)
+        scroll_area.show()
         msg.exec()
         
         
