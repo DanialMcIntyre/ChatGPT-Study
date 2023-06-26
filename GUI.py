@@ -2,6 +2,8 @@ import sys, os, shutil, pathlib
 from PyQt6 import QtWidgets, uic
 from PyQt6.QtWidgets import QFileDialog, QTextEdit
 from PyQt6.QtGui import QAction, QIcon
+from test import extractPDF, createMockTest, createQCards, summarizePDF
+
 
 qtcreator_file  = "window.ui" # Enter file here.
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtcreator_file)
@@ -15,7 +17,9 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.showPDFs()
         self.buttonAddPDF.clicked.connect(self.addPDF)
-        self.buttonRemovePDF.clicked.connect(self.removePDF)
+        self.buttonMock.clicked.connect(self.mockTest)
+        self.buttonCard.clicked.connect(self.qCards)
+        self.buttonSummarize.clicked.connect(self.summarize)
 
     #Add a pdf to the list
     def addPDF(self):
@@ -58,7 +62,21 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         for i, entry in enumerate(path.iterdir()):
             if entry.is_file():
                 self.listPDF.insertItem(i, entry.name)
+    
+    def mockTest(self):
+        text = self.listPDF.currentItem().text()
+        text = extractPDF("pdfs/"+text)
+        print(createMockTest(text))
 
+    def qCards(self):
+        text = self.listPDF.currentItem().text()
+        text = extractPDF("pdfs/"+text)
+        print(createQCards(text))
+
+    def summarize(self):
+        text = self.listPDF.currentItem().text()
+        text = extractPDF("pdfs/"+text)
+        print(summarizePDF(text))
         
 
 

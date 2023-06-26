@@ -68,8 +68,7 @@ def createQCards(PDF, numCards):
 
     return completion.choices[0].message.content
 
-text = extractPDF("cogsci.pdf")
-print(createMockTest(text))
+
 
 # print(createQCards(text,20))
 # print(summarizePDF(text))
