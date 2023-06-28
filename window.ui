@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>877</width>
-    <height>700</height>
+    <width>880</width>
+    <height>680</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -54,8 +54,8 @@
      <rect>
       <x>260</x>
       <y>20</y>
-      <width>601</width>
-      <height>631</height>
+      <width>591</width>
+      <height>521</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -76,28 +76,75 @@ p, li { white-space: pre-wrap; }
        </property>
       </widget>
      </item>
-     <item>
-      <widget class="QPushButton" name="buttonMock">
-       <property name="text">
-        <string>Create Mock Test</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="buttonCard">
-       <property name="text">
-        <string>Create Q-Cards</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="buttonSummarize">
-       <property name="text">
-        <string>Summarize</string>
-       </property>
-      </widget>
-     </item>
     </layout>
+   </widget>
+   <widget class="QFrame" name="frame_3">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>540</y>
+      <width>591</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QPushButton" name="buttonSummarize">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>10</y>
+       <width>591</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Summarize</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="buttonCard">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>40</y>
+       <width>531</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>                  Create Q-Cards</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="buttonMock">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>70</y>
+       <width>591</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Create Mock Test</string>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="numCards">
+     <property name="geometry">
+      <rect>
+       <x>537</x>
+       <y>40</y>
+       <width>41</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="maximum">
+      <number>50</number>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -105,7 +152,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>877</width>
+     <width>878</width>
      <height>36</height>
     </rect>
    </property>

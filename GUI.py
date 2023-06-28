@@ -15,8 +15,12 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
         self.setWindowTitle("Study Assist")
+        self.setFixedSize(880, 680)
 
         self.showPDFs()
+        self.showPDFText()
+        
+        #Events
         self.listPDF.itemClicked.connect(self.showPDFText)
         self.buttonAddPDF.clicked.connect(self.addPDF)
         self.buttonRemovePDF.clicked.connect(self.removePDF)
@@ -29,9 +33,12 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         #Select file
         fname = QFileDialog.getOpenFileName(self, 'Open file', "${HOME}$", "PDF Files (*.pdf)")
         #Copy file to pdfs folder
-        currDir = os.getcwd()
-        shutil.copy(fname[0], currDir + "/pdfs")
-        self.showPDFs()
+        if (fname[0] != ''):
+            currDir = os.getcwd()
+            shutil.copy(fname[0], currDir + "/pdfs")
+            self.showPDFs()
+        else:
+            print("File not selected!")
 
     #Removes selected pdf from the list
     def removePDF(self):
@@ -73,21 +80,32 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         for i, entry in enumerate(path.iterdir()):
             if entry.is_file():
                 self.listPDF.insertItem(i, entry.name)
+        self.listPDF.setCurrentRow(0)
     
     def mockTest(self):
-        text = self.listPDF.currentItem().text()
-        text = extractPDF("pdfs/" + text)
-        self.popup(createMockTest(text), "MockTest")
+        if not(self.listPDF.currentItem() is None):
+            text = self.listPDF.currentItem().text()
+            text = extractPDF("pdfs/" + text)
+            self.popup(createMockTest(text), "MockTest")
+        else:
+            print("No PDF selected")
 
     def qCards(self):
-        text = self.listPDF.currentItem().text()
-        text = extractPDF("pdfs/" + text)
-        self.popup(createQCards(text, 5), "Qcards")
+        if not(self.listPDF.currentItem() is None):
+            text = self.listPDF.currentItem().text()
+            text = extractPDF("pdfs/" + text)
+            numCards = self.numCards.value()
+            self.popup(createQCards(text, numCards), "Qcards")
+        else:
+            print("No PDF selected")
 
     def summarize(self):
-        text = self.listPDF.currentItem().text()
-        text = extractPDF("pdfs/" + text)
-        self.popup(summarizePDF(text), "PDFSummary")
+        if not(self.listPDF.currentItem() is None):
+            text = self.listPDF.currentItem().text()
+            text = extractPDF("pdfs/" + text)
+            self.popup(summarizePDF(text), "PDFSummary")
+        else:
+            print("No PDF selected")
     
     def popup(self, text, title):
         msg = QMessageBox()
