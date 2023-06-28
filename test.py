@@ -67,18 +67,3 @@ def createQCards(PDF, numCards):
     )
 
     return completion.choices[0].message.content
-
-
-
-# print(createQCards(text,20))
-# print(summarizePDF(text))
-
-#Message to API
-#completion = openai.ChatCompletion.create(
-#    model = "gpt-3.5-turbo",
-#    messages = [{"role": "user", "content" : "How are you today?"}]
-#)
-
-#Print output
-#print(completion.choices[0].message.content)
-#print(completion)

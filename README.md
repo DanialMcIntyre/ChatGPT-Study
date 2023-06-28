@@ -17,4 +17,8 @@ To install:
 pip install openai
 Documentation: https://platform.openai.com/docs/introduction
 
+Other libraries:
+pip install pdfminer
+pip install python-dotenv
+
 Made by Danial McIntyre and Iman Ullah

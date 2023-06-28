@@ -5,12 +5,11 @@ from PyQt6.QtGui import QAction, QIcon
 from test import extractPDF, createMockTest, createQCards, summarizePDF
 from PyQt6.QtCore import Qt
 
-
 qtcreator_file  = "window.ui" # Enter file here.
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtcreator_file)
 
-
 class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
+
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
@@ -18,7 +17,9 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setWindowTitle("Study Assist")
 
         self.showPDFs()
+        self.listPDF.itemClicked.connect(self.showPDFText)
         self.buttonAddPDF.clicked.connect(self.addPDF)
+        self.buttonRemovePDF.clicked.connect(self.removePDF)
         self.buttonMock.clicked.connect(self.mockTest)
         self.buttonCard.clicked.connect(self.qCards)
         self.buttonSummarize.clicked.connect(self.summarize)
@@ -34,7 +35,6 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
     #Removes selected pdf from the list
     def removePDF(self):
-
         #Check if folder has files
         numFiles = 0;
         path = pathlib.Path('./pdfs')
@@ -54,8 +54,17 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
                 if entry.name == currentText:
                     os.remove(currDir + "/" + currentText)
             self.showPDFs()
+            self.showPDFText()
         else:
             print("No files!")
+
+    #Shows the text of a PDF
+    def showPDFText(self):
+        if not(self.listPDF.currentItem() is None):
+            pdfText = extractPDF("pdfs/"+self.listPDF.currentItem().text())
+        else:
+            pdfText = ""
+        self.showText.setText(pdfText)
                 
     #Function that updates display for the pdf list
     def showPDFs(self):
@@ -67,17 +76,17 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
     
     def mockTest(self):
         text = self.listPDF.currentItem().text()
-        text = extractPDF("pdfs/"+text)
+        text = extractPDF("pdfs/" + text)
         self.popup(createMockTest(text), "MockTest")
-        # self.popup("text", "text")
+
     def qCards(self):
         text = self.listPDF.currentItem().text()
-        text = extractPDF("pdfs/"+text)
+        text = extractPDF("pdfs/" + text)
         self.popup(createQCards(text, 5), "Qcards")
 
     def summarize(self):
         text = self.listPDF.currentItem().text()
-        text = extractPDF("pdfs/"+text)
+        text = extractPDF("pdfs/" + text)
         self.popup(summarizePDF(text), "PDFSummary")
     
     def popup(self, text, title):
@@ -85,14 +94,9 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         msg.setWindowTitle(title)
         msg.setText(text)
         scroll_area = QScrollArea()
-
-        # widget = QWidget()
-        # widget.setLayout(QVBoxLayout())
-        # widget.layout().addWidget(msg)
         scroll_area.setWidget(msg)
         scroll_area.show()
         msg.exec()
-
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
