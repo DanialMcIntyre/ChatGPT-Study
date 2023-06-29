@@ -83,27 +83,25 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.listPDF.setCurrentRow(0)
     
     def mockTest(self):
-        if not(self.listPDF.currentItem() is None):
-            text = self.listPDF.currentItem().text()
-            text = extractPDF("pdfs/" + text)
+        if not(self.showText.toPlainText() is None):
+            text = self.showText.toPlainText()
             self.popup(createMockTest(text), "MockTest")
         else:
             print("No PDF selected")
 
     def qCards(self):
-        if not(self.listPDF.currentItem() is None):
-            text = self.listPDF.currentItem().text()
-            text = extractPDF("pdfs/" + text)
+        if not(self.showText.toPlainText() is None):
+            text = self.showText.toPlainText()
             numCards = self.numCards.value()
             self.popup(createQCards(text, numCards), "Qcards")
         else:
             print("No PDF selected")
 
     def summarize(self):
-        if not(self.listPDF.currentItem() is None):
-            text = self.listPDF.currentItem().text()
-            text = extractPDF("pdfs/" + text)
-            self.popup(summarizePDF(text), "PDFSummary")
+        if not(self.showText.toPlainText() is None):
+            text = self.showText.toPlainText()
+            type = self.summarizeType.currentText()
+            self.popup(summarizePDF(text, type), "PDFSummary")
         else:
             print("No PDF selected")
     

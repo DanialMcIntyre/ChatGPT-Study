@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>880</width>
-    <height>680</height>
+    <width>878</width>
+    <height>724</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,6 +30,13 @@
      <enum>QFrame::Raised</enum>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>View PDFs</string>
+       </property>
+      </widget>
+     </item>
      <item>
       <widget class="QListWidget" name="listPDF"/>
      </item>
@@ -66,7 +73,17 @@
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Edit text</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QTextBrowser" name="showText">
+       <property name="readOnly">
+        <bool>false</bool>
+       </property>
        <property name="html">
         <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -98,12 +115,12 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>0</x>
        <y>10</y>
-       <width>591</width>
+       <width>471</width>
        <height>32</height>
       </rect>
      </property>
      <property name="text">
-      <string>Summarize</string>
+      <string>                                   Summarize</string>
      </property>
     </widget>
     <widget class="QPushButton" name="buttonCard">
@@ -144,6 +161,31 @@ p, li { white-space: pre-wrap; }
      <property name="maximum">
       <number>50</number>
      </property>
+    </widget>
+    <widget class="QComboBox" name="summarizeType">
+     <property name="geometry">
+      <rect>
+       <x>470</x>
+       <y>0</y>
+       <width>111</width>
+       <height>53</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>Brief</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Detailed</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>In Depth</string>
+      </property>
+     </item>
     </widget>
    </widget>
   </widget>

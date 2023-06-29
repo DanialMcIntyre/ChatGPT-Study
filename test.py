@@ -13,7 +13,7 @@ def extractPDF(fileName):
     text = extract_text(fileName)
     return text
 
-def summarizePDF(PDF):
+def summarizePDF(PDF, complexity):
     numWords = PDF.split()
     numWords = len(numWords)
     if numWords > 3000:
@@ -24,9 +24,18 @@ def summarizePDF(PDF):
     else:
         gptModel = "gpt-3.5-turbo-16k"
 
+    if complexity == "Brief":
+        words = 100
+    elif complexity == "Detailed":
+        words = 200
+    elif complexity == "In Depth":
+        words = 300
+    else:
+        words = 100
+
     completion = openai.ChatCompletion.create(
     model = gptModel,
-    messages = [{"role": "user", "content" : "Summarize the following:\n" + PDF}]
+    messages = [{"role": "user", "content" : "Give a " + complexity + " summary in around " + str(words) + " of the following:\n" + PDF}]
     )
 
     return completion.choices[0].message.content
@@ -45,7 +54,7 @@ def createMockTest(PDF):
 
     completion = openai.ChatCompletion.create(
     model = gptModel,
-    messages = [{"role": "user", "content" : "Create a mock test for the following pdf with multiple multiple choice and short answer questions and then create an answer sheet afterwards:\n" + PDF}]
+    messages = [{"role": "user", "content" : "Create a mock test for the following text with multiple multiple choice and short answer questions and then create an answer sheet afterwards:\n" + PDF}]
     )
 
     return completion.choices[0].message.content
