@@ -15,18 +15,39 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
         self.setWindowTitle("Study Assist")
-        self.setFixedSize(880, 680)
+        self.setFixedSize(865, 685)
 
         self.showPDFs()
         self.showPDFText()
+
+        #Setup window
+        self.stackedWidget.setCurrentWidget(self.home)
         
         #Events
+
+        #Home buttons
         self.listPDF.itemClicked.connect(self.showPDFText)
         self.buttonAddPDF.clicked.connect(self.addPDF)
         self.buttonRemovePDF.clicked.connect(self.removePDF)
         self.buttonMock.clicked.connect(self.mockTest)
         self.buttonCard.clicked.connect(self.qCards)
         self.buttonSummarize.clicked.connect(self.summarize)
+        self.buttonGoSettings.clicked.connect(self.goSettings)
+
+        #Settings buttons
+        self.buttonSaveSettings.clicked.connect(self.goHome)
+
+        #Summary buttons
+        self.buttonHome.clicked.connect(self.goHome)
+
+        #Qcard buttons
+        self.buttonHome_2.clicked.connect(self.goHome)
+
+        #Mock test buttons
+        self.buttonHome_3.clicked.connect(self.goHome)
+
+
+
 
     #Add a pdf to the list
     def addPDF(self):
@@ -83,27 +104,38 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.listPDF.setCurrentRow(0)
     
     def mockTest(self):
-        if not(self.showText.toPlainText() is None):
-            text = self.showText.toPlainText()
-            self.popup(createMockTest(text), "MockTest")
-        else:
-            print("No PDF selected")
+        self.stackedWidget.setCurrentWidget(self.mocktest)
+        #if not(self.showText.toPlainText() is None):
+        #    text = self.showText.toPlainText()
+        #    self.popup(createMockTest(text), "MockTest")
+        #else:
+        #    print("No PDF selected")
 
     def qCards(self):
-        if not(self.showText.toPlainText() is None):
-            text = self.showText.toPlainText()
-            numCards = self.numCards.value()
-            self.popup(createQCards(text, numCards), "Qcards")
-        else:
-            print("No PDF selected")
+        self.stackedWidget.setCurrentWidget(self.qcards)
+        #if not(self.showText.toPlainText() is None):
+        #    text = self.showText.toPlainText()
+        #    numCards = self.numCards.value()
+        #    self.popup(createQCards(text, numCards), "Qcards")
+        #else:
+        #    print("No PDF selected")
 
     def summarize(self):
-        if not(self.showText.toPlainText() is None):
-            text = self.showText.toPlainText()
-            type = self.summarizeType.currentText()
-            self.popup(summarizePDF(text, type), "PDFSummary")
-        else:
-            print("No PDF selected")
+        self.stackedWidget.setCurrentWidget(self.summary)
+        #if not(self.showText.toPlainText() is None):
+        #    text = self.showText.toPlainText()
+        #    type = self.summarizeType.currentText()
+        #    self.popup(summarizePDF(text, type), "PDFSummary")
+        #else:
+        #    print("No PDF selected")
+
+    #Change to home window
+    def goSettings(self):
+        self.stackedWidget.setCurrentWidget(self.settings)
+
+    #Change to home window
+    def goHome(self):
+        self.stackedWidget.setCurrentWidget(self.home)
     
     def popup(self, text, title):
         msg = QMessageBox()

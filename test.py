@@ -1,12 +1,11 @@
-import openai
-import os
+from openai import OpenAI
 from pdfminer.high_level import extract_text
 from PyQt6 import uic, QtWidgets
 from dotenv import load_dotenv
 
 load_dotenv()
 
-openai.api_key = os.getenv('API_KEY')
+client = OpenAI()
 
 #Reads pdf and returns string
 def extractPDF(fileName):
@@ -33,7 +32,8 @@ def summarizePDF(PDF, complexity):
     else:
         words = 100
 
-    completion = openai.ChatCompletion.create(
+    print(gptModel)
+    completion = client.chat.completions.create(
     model = gptModel,
     messages = [{"role": "user", "content" : "Give a " + complexity + " summary in around " + str(words) + " of the following:\n" + PDF}]
     )
@@ -52,7 +52,7 @@ def createMockTest(PDF):
     else:
         gptModel = "gpt-3.5-turbo-16k"
 
-    completion = openai.ChatCompletion.create(
+    completion = client.chat.completions.create(
     model = gptModel,
     messages = [{"role": "user", "content" : "Create a mock test for the following text with multiple multiple choice and short answer questions and then create an answer sheet afterwards:\n" + PDF}]
     )
@@ -70,7 +70,7 @@ def createQCards(PDF, numCards):
     else:
         gptModel = "gpt-3.5-turbo-16k"
 
-    completion = openai.ChatCompletion.create(
+    completion = client.chat.completions.create(
     model = gptModel,
     messages = [{"role": "user", "content" : "Create " + str(numCards) + " QCards with answers from the following info:\n" + PDF}]
     )
