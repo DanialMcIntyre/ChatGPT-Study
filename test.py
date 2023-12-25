@@ -37,7 +37,7 @@ def summarizePDF(PDF, complexity):
     model = gptModel,
     messages = [{"role": "user", "content" : "Give a " + complexity + " summary in around " + str(words) + " of the following:\n" + PDF}]
     )
-
+    print(completion)
     return completion.choices[0].message.content
 
 def createMockTest(PDF):

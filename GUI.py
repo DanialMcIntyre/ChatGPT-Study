@@ -1,6 +1,6 @@
 import sys, os, shutil, pathlib
 from PyQt6 import QtWidgets, uic
-from PyQt6.QtWidgets import QFileDialog, QWidget, QMessageBox, QVBoxLayout, QScrollArea
+from PyQt6.QtWidgets import QFileDialog, QWidget, QVBoxLayout, QDialog, QLabel, QPushButton
 from PyQt6.QtGui import QAction, QIcon
 from test import extractPDF, createMockTest, createQCards, summarizePDF
 from PyQt6.QtCore import Qt
@@ -45,9 +45,6 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
         #Mock test buttons
         self.buttonHome_3.clicked.connect(self.goHome)
-
-
-
 
     #Add a pdf to the list
     def addPDF(self):
@@ -104,7 +101,10 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.listPDF.setCurrentRow(0)
     
     def mockTest(self):
-        self.stackedWidget.setCurrentWidget(self.mocktest)
+        if len(self.showText.toPlainText()) != 0:
+            self.stackedWidget.setCurrentWidget(self.mocktest)
+        else:
+            self.popup("No PDF selected!", "Error!")
         #if not(self.showText.toPlainText() is None):
         #    text = self.showText.toPlainText()
         #    self.popup(createMockTest(text), "MockTest")
@@ -112,7 +112,13 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         #    print("No PDF selected")
 
     def qCards(self):
-        self.stackedWidget.setCurrentWidget(self.qcards)
+        if len(self.showText.toPlainText()) != 0:
+            numCards = self.numCards.value()
+            response = "Topic: What percentage of daily activities is based on the habit system? Answer: 40 percent of daily activities are based on the habit system. Topic: What are habitual actions? Answer: Habitual actions are tasks performed without conscious thought, such as driving a car or riding a bike instinctively. Topic: Why is it important to build good habits and remove bad habits? Answer: Building good habits and removing bad habits is crucial as habits can have a profound impact on one's life."
+            self.stackedWidget.setCurrentWidget(self.qcards)
+            
+        else:
+            self.popup("No PDF selected!", "Error!")
         #if not(self.showText.toPlainText() is None):
         #    text = self.showText.toPlainText()
         #    numCards = self.numCards.value()
@@ -121,7 +127,13 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         #    print("No PDF selected")
 
     def summarize(self):
-        self.stackedWidget.setCurrentWidget(self.summary)
+        if len(self.showText.toPlainText()) != 0:
+            text = self.showText.toPlainText()
+            type = self.summarizeType.currentText()
+            self.summaryTextBrowser.setText(summarizePDF(text, type))
+            self.stackedWidget.setCurrentWidget(self.summary)
+        else:
+            self.popup("No PDF selected!", "Error!")
         #if not(self.showText.toPlainText() is None):
         #    text = self.showText.toPlainText()
         #    type = self.summarizeType.currentText()
@@ -137,13 +149,23 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
     def goHome(self):
         self.stackedWidget.setCurrentWidget(self.home)
     
+    #Default popup window
     def popup(self, text, title):
-        msg = QMessageBox()
+        msg = QDialog()
         msg.setWindowTitle(title)
-        msg.setText(text)
-        scroll_area = QScrollArea()
-        scroll_area.setWidget(msg)
-        scroll_area.show()
+
+        layout = QVBoxLayout()
+        label = QLabel(text, msg)
+        label.setAlignment(Qt.AlignmentFlag.AlignHCenter)
+        button = QPushButton("Close")
+        button.clicked.connect(msg.accept)
+
+        layout.addWidget(label)
+        layout.addWidget(button)
+
+        msg.setLayout(layout)
+        msg.setFixedSize(200, 100)
+
         msg.exec()
 
 if __name__ == "__main__":
