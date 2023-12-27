@@ -7,7 +7,7 @@ Made by Danial McIntyre and Iman Ullah
 
 ## Installation
 
-In the project directory, install the necessary libraries with with:  
+In the project directory, install the necessary libraries with:  
 
 ```ssh
 pip install -r requirements.txt 
@@ -15,9 +15,7 @@ pip install -r requirements.txt
 
 Then, obtain an [API key](https://platform.openai.com/docs/introduction), and copy the following lines into a .env file in the root directory like so:  
 
-```
-OPENAI_API_KEY = YOUR_API_KEY_HERE
-```
+`OPENAI_API_KEY = YOUR_API_KEY_HERE`
 
 ## Running
 
