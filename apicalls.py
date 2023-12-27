@@ -12,6 +12,7 @@ def extractPDF(fileName):
     text = extract_text(fileName)
     return text
 
+#Returns a summary of pdf
 def summarizePDF(PDF, complexity):
     numWords = PDF.split()
     numWords = len(numWords)
@@ -37,9 +38,9 @@ def summarizePDF(PDF, complexity):
     model = gptModel,
     messages = [{"role": "user", "content" : "Give a " + complexity + " summary in around " + str(words) + " of the following:\n" + PDF}]
     )
-    print(completion)
     return completion.choices[0].message.content
 
+#Creates mock test
 def createMockTest(PDF):
     numWords = PDF.split()
     numWords = len(numWords)
@@ -59,6 +60,7 @@ def createMockTest(PDF):
 
     return completion.choices[0].message.content
 
+#Creates Q-Cards
 def createQCards(PDF, numCards):
     numWords = PDF.split()
     numWords = len(numWords)
@@ -72,7 +74,7 @@ def createQCards(PDF, numCards):
 
     completion = client.chat.completions.create(
     model = gptModel,
-    messages = [{"role": "user", "content" : "Create " + str(numCards) + " QCards with answers from the following info:\n" + PDF}]
+    messages = [{"role": "user", "content" : "Create " + str(numCards) + " QCards with answers in the following format: \nQuestion: Answer: \n Here is an example: \n Question: What is the main topic of the text? Answer: The main topic is about owning pets \n Do not call them anything like Q1 or A1. Simple use Question and Answer. Make the questions from the following info:\n" + PDF}]
     )
 
     return completion.choices[0].message.content

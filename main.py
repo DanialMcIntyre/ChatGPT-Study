@@ -2,7 +2,7 @@ import sys, os, shutil, pathlib
 from PyQt6 import QtWidgets, uic, QtCore, QtGui
 from PyQt6.QtWidgets import QFileDialog, QWidget, QVBoxLayout, QDialog, QLabel, QPushButton
 from PyQt6.QtGui import QAction, QIcon
-from test import extractPDF, createMockTest, createQCards, summarizePDF
+from apicalls import extractPDF, createMockTest, createQCards, summarizePDF
 from PyQt6.QtCore import Qt
 from functools import partial
 
@@ -65,8 +65,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
     #Removes selected pdf from the list
     def removePDF(self):
-        #Check if folder has files
-        numFiles = 0;
+        numFiles = 0
         path = pathlib.Path('./pdfs')
         for entry in path.iterdir():
             numFiles+=1
@@ -105,6 +104,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.listPDF.insertItem(i, entry.name)
         self.listPDF.setCurrentRow(0)
     
+    #Creates a mock test
     def mockTest(self):
         if len(self.showText.toPlainText()) != 0:
             self.stackedWidget.setCurrentWidget(self.mocktest)
@@ -116,6 +116,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         #else:
         #    print("No PDF selected")
 
+    #Create QCards of text
     def qCards(self):
         if len(self.showText.toPlainText()) != 0:
             self.drawQCards()
@@ -129,15 +130,18 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.drawCard(i)
             self.cards.setCurrentIndex(0)
 
-            response = "Topic: What percentage of daily activities is based on the habit system? Answer: 40 percent of daily activities are based on the habit system. Topic: What are habitual actions? Answer: Habitual actions are tasks performed without conscious thought, such as driving a car or riding a bike instinctively. Topic: Why is it important to build good habits and remove bad habits? Answer: Building good habits and removing bad habits is crucial as habits can have a profound impact on one's life."
+            text = self.showText.toPlainText()
+            response = createQCards(text, numCards)
+            response = response.replace('\n', ' ')
+            print(response)
             for i in range(0, numCards):
                 #Get the question
-                startIndex = response.find("Topic: ")
+                startIndex = response.find("Question: ")
                 endIndex = response.find("Answer: ")
-                question = response[startIndex + 7:endIndex]
+                question = response[startIndex + 10:endIndex]
                 #Get the answer
                 response = response[endIndex:]
-                nextStartIndex = response.find("Topic: ")
+                nextStartIndex = response.find("Question: ")
                 answer = response[8:nextStartIndex]
                 response = response[nextStartIndex:]
 
@@ -147,13 +151,8 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
             self.stackedWidget.setCurrentWidget(self.qcards)
         else:
             self.popup("No PDF selected!", "Error!")
-        #if not(self.showText.toPlainText() is None):
-        #    text = self.showText.toPlainText()
-        #    numCards = self.numCards.value()
-        #    self.popup(createQCards(text, numCards), "Qcards")
-        #else:
-        #    print("No PDF selected")
 
+    #Summarize text
     def summarize(self):
         if len(self.showText.toPlainText()) != 0:
             text = self.showText.toPlainText()
@@ -162,12 +161,6 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
             self.stackedWidget.setCurrentWidget(self.summary)
         else:
             self.popup("No PDF selected!", "Error!")
-        #if not(self.showText.toPlainText() is None):
-        #    text = self.showText.toPlainText()
-        #    type = self.summarizeType.currentText()
-        #    self.popup(summarizePDF(text, type), "PDFSummary")
-        #else:
-        #    print("No PDF selected")
 
     #Change to home window
     def goSettings(self):
@@ -194,6 +187,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
     def backCard(self):
         self.cards.setCurrentIndex(self.cards.currentIndex() - 1)
 
+    #Flips card
     def flipCard(self, index):
         if self.cardStatus[index] == 1:
             self.cardStatus[index] = 0
@@ -203,7 +197,6 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
             self.cardStatus[index] = 1
             self.cardQuestions[index].setHidden(False)
             self.cardAnswers[index].setHidden(True)
-
 
     #Default popup window
     def popup(self, text, title):
