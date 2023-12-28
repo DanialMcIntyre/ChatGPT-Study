@@ -107,6 +107,18 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
     #Creates a mock test
     def mockTest(self):
         if len(self.showText.toPlainText()) != 0:
+
+            hasMC = self.mcCheckBox.isChecked()
+            numMC = self.mcSpinBox.value()
+            hasSA = self.shortCheckBox.isChecked()
+            numSA = self.shortSpinBox.value()
+            hasLA = self.longCheckBox.isChecked()
+            numLA = self.longSpinBox.value()
+            hasFill = self.fillCheckBox.isChecked()
+            numFill = self.fillSpinBox.value()
+
+            response = createMockTest(self.showText.toPlainText(), hasMC, hasSA, hasLA, hasFill, numMC, numSA, numLA, numFill)
+            self.mockTestArea.setText(response)
             self.stackedWidget.setCurrentWidget(self.mocktest)
         else:
             self.popup("No PDF selected!", "Error!")
@@ -133,7 +145,6 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
             text = self.showText.toPlainText()
             response = createQCards(text, numCards)
             response = response.replace('\n', ' ')
-            print(response)
             for i in range(0, numCards):
                 #Get the question
                 startIndex = response.find("Question: ")

@@ -41,10 +41,9 @@ def summarizePDF(PDF, complexity):
     return completion.choices[0].message.content
 
 #Creates mock test
-def createMockTest(PDF):
+def createMockTest(PDF, hasMC, hasSA, hasLA, hasFill, numMC, numSA, numLA, numFill):
     numWords = PDF.split()
     numWords = len(numWords)
-    print(numWords)
     if numWords > 3000:
         print("File too large")
         return
@@ -53,9 +52,22 @@ def createMockTest(PDF):
     else:
         gptModel = "gpt-3.5-turbo-16k"
 
+    questions = ""
+    if hasMC:
+        questions += str(numMC) + "multiple choice questions \n"
+    if (hasSA):
+        questions += str(numSA) + "short answer questions \n"
+    if (hasLA):
+        questions += str(numLA) + "long answer questions \n"
+    if (hasFill):
+        questions += str(numFill) + "fill in the blank questions questions \n"
+    
+    if questions == "":
+        return "Please select the types of questions you want!"
+
     completion = client.chat.completions.create(
     model = gptModel,
-    messages = [{"role": "user", "content" : "Create a mock test for the following text with multiple multiple choice and short answer questions and then create an answer sheet afterwards:\n" + PDF}]
+    messages = [{"role": "user", "content" : "Create a mock test with the following types of questions: \n" + questions + "Include an answer key at the end separated by a couple blank lines. Use the following text to generate the questions: \n" + PDF}]
     )
 
     return completion.choices[0].message.content
