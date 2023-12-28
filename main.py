@@ -1,7 +1,8 @@
 import sys, os, shutil, pathlib
 from PyQt6 import QtWidgets, uic, QtCore, QtGui
 from PyQt6.QtWidgets import QFileDialog, QWidget, QVBoxLayout, QDialog, QLabel, QPushButton
-from PyQt6.QtGui import QAction, QIcon
+from PyQt6.QtGui import QAction, QIcon, QPageSize
+from PyQt6.QtPrintSupport import QPrinter
 from apicalls import extractPDF, createMockTest, createQCards, summarizePDF
 from PyQt6.QtCore import Qt
 from functools import partial
@@ -50,6 +51,7 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
 
         #Mock test buttons
         self.buttonHome_3.clicked.connect(self.goHome)
+        self.savePDF.clicked.connect(self.saveToPDF)
 
     #Add a pdf to the list
     def addPDF(self):
@@ -273,6 +275,14 @@ class MyApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.buttonNextCard.clicked.connect(self.nextCard)
         self.buttonBackCard.clicked.connect(self.backCard)
         self.buttonFlipCard.clicked.connect(partial(self.flipCard, index))
+
+    def saveToPDF(self):
+        filename = QFileDialog.getSaveFileName(self, 'Save to PDF', filter='PDF Files (*.pdf)')
+        if filename:
+            printer = QPrinter(QPrinter.PrinterMode.HighResolution)
+            printer.setOutputFormat(QPrinter.OutputFormat.PdfFormat)
+            printer.setOutputFileName(filename[0])
+            self.mockTestArea.document().print(printer)
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
